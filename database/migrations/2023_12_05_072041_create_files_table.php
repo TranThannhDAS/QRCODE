@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('filepath')->nullable();
             $table->unsignedBigInteger('userid');
             $table->foreign('userid')->references('id')->on('users');
+            $table->string('qrcode')->nullable();
             $table->timestamps();
         });
     }

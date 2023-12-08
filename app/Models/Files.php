@@ -11,6 +11,7 @@ class Files extends Model
     protected $fillable = [
         'name',
         'filepath',
-        'userid'
+        'userid',
+        'qrcode'
     ];
 }

@@ -25,7 +25,9 @@
                     <tbody>
                         @foreach ($file as $item)
                         <tr>
-                            <td>Mã QR</td>
+                            <td> <div class="card-body">
+                                {!! QrCode::size(100)->generate($item->qrcode) !!}
+                            </div></td>
                             <td>{{ $item->name }}</td>
                             <td>
                                 <a href="{{ route('show_edit', ['id' => $item->id]) }}" class="btn btn-info">Xem và Sửa</a>

@@ -14,28 +14,32 @@
                 </div>
             </div>
             <div class="card-body">
-                <form action="{{ route('doedit') }}" method="POST">
+                <form action="{{ route('doedit') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <div class="form-group">
+                                    <input type="hidden" class="nameOld" name="id" class="form-control"
+                                        value="{{ $file->id }}">                             
+                                       </div>
                                     <strong>Tên</strong>
-                                    <input type="text" class="name" name="ten" class="form-control"
+                                    <input type="text" class="nameNew" name="nameNew" class="form-control"
                                         value="{{ $file->name }}" placeholder="Nhập họ tên">
-                                </div>
+                                        <input type="hidden" class="nameOld" name="nameOld" class="form-control"
+                                        value="{{ $file->name }}">                             
+                                       </div>
                             </div>
                             <div class="form-group">
                                 <strong>File</strong>
                                 @foreach ($files as $item)
                                     <!-- Trong blade view -->
                                     <!-- Trong blade view -->
-                                    <input type="text" name="ten[]" id="nameFile" class="form-control check1"
+                                    <input type="text" name="nameFile[]" id="nameFile" class="form-control check1"
                                         value="{{ $item->getFilename() }}" data-realpart="{{ $item->getRealPath() }}"
                                         placeholder="Nhập họ tên">
-                                    <a type="button" href="http://127.0.0.1:8000/storagefile/download?path={{ $item->getFilename() }}&&name={{ $file->name }}" class="btn btn-info"  onclick="download({{ $loop->index }})">Tải
-                                        xuống</a>
+                                    <a type="button" href="http://127.0.0.1:8000/storagefile/download?path={{ $item->getFilename() }}&&name={{ $file->name }}" class="btn btn-info"  onclick="download({{ $loop->index }})">Xem</a>
                                         <a type="button" href="http://127.0.0.1:8000/storagefile/delete?path={{ $item->getFilename() }}&&name={{ $file->name }}&&id={{ $file->id }}" class="btn btn-danger"  onclick="download({{ $loop->index }})">Xóa</a>
                                 @endforeach                                
                             </div>
@@ -48,7 +52,7 @@
                             </div>
                             <strong>Mã QR</strong>
                             <div class="card-body">
-                                {!! QrCode::size(300)->generate('RemoteStack') !!}
+                                {!! QrCode::size(100)->generate($file->qrcode) !!}
                             </div>
 
                         </div>

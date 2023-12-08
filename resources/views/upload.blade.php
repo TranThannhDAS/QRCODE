@@ -75,13 +75,7 @@
                <div class="card">
             <div class="card-header">
                 <h2>Color QR Code</h2>
-            </div>
-            <?php
-               $qrcode = url();
-            ?>
-            <div class="card-body">
-                {!! QrCode::size(300)->generate('RemoteStack') !!}
-            </div>
+            </div>                 
     </div>
      <script>
         // var btnAddText = document.querySelector(".addtextbox")
