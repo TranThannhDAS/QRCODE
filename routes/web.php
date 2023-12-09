@@ -48,3 +48,4 @@ Route::get('storagefile/download',[UploadFileController::class,'ondownload'])->n
 Route::get('storagefile/delete',[UploadFileController::class,'ondelete'])->name('delete');
 Route::delete('storagefile/deleteall/{id}',[UploadFileController::class,'deleteall'])->name('deleteall');
 
+Route::get('{hash}',[UploadFileController::class,'show_edit_anonymous'])->name('anonymous');

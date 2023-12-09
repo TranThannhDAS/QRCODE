@@ -27,7 +27,7 @@
         <form action="{{ route('fileUpload') }}" method="post" enctype="multipart/form-data" id="theForm">
             <h3 class="text-center mb-5">Upload File in Laravel</h3>
             @csrf
-            @if ($message = Session::get(' success')) <div class="alert alert-success">
+            @if ($message = Session::get('success')) <div class="alert alert-success">
                 <strong>{{ $message }}</strong>
             </div>
             @endif
@@ -75,12 +75,13 @@
             <div class="card-header">
                 <h2>Color QR Code</h2>
             </div>
-            <?php
-            $qrcode = url();
-            ?>
-            <div class="card-body">
-                {!! QrCode::size(300)->generate('RemoteStack') !!}
+            <div>
+                @if ($image = Session::get('qrcode')) <div class="alert alert-success">
+                    <img src="data:image/png;base64,{{ base64_encode($image) }}" alt="QR Code">                </div>
+                @endif
             </div>
+           <div> <a href="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(300)->generate('Generate any QR Code!')) !!} " download>Downloads</a></div>
+            <p>My Qr Code</p>
         </div>
         <script>
         let index = 0;
