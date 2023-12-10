@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <title>Laravel File Upload</title>
     <style>
         .container {
@@ -19,25 +20,36 @@
             padding: 0;
             list-style: none;
         }
+
+        .buttonReplaceName:hover {
+            color: crimson;
+
+        }
+
+        .barOption:hover {
+            color: #90c7f7
+        }
     </style>
 </head>
 
 <body>
-    <div class="mt-5 " style="width: 979px; position: relative; margin: auto; padding: 7px;  border: 1px solid; border-radius: 5px;">
+    <div class="mt-5 " style="width: 979px; box-shadow: 0 0 5px #ffbdbd; background-color: #e0e0e0;
+ position: relative; margin: auto; padding: 7px;  border: 1px solid; border-radius: 5px;">
         <div style="position: absolute; top: 5px; left: 4px;">
             <div style='display: flex; align-items: center;'>
                 <div style="width: 50px; height: 50px; margin-right: 5px;">
                     <img style='width: 100%;height: 100%; object-fit: cover;' src="https://gaixinhbikini.com/wp-content/uploads/2023/02/anh-gai-dep-2k-005.jpg" alt='' />
                 </div>
-                <div style="width: 130px; height: 50px; border: 1px solid; display: flex; align-items: center; justify-content: center;">
+                <div style="    width: 147px; height: 50px; border: 1px solid; display: flex; align-items: center; justify-content: center; border-radius: 5px; box-shadow: 0 0 2px wheat; background-color: #b5d0f3;">
                     QR code</div>
             </div>
-            <div style='border: 1px solid; margin-top: 5px;'>
-                <div style='cursor: pointer; padding: 5px; text-align: center;'>Create new</div>
-                <div style='cursor: pointer; padding: 5px; text-align: center;'>My QR code</div>
-                <div style='cursor: pointer; padding: 5px; text-align: center;'>Get link</div>
+            <div style='    border: 1px solid #333333; margin-top: 10px; border-radius: 5px; box-shadow: 0 0 2px #d2ba8d; background-color: #474b4d; color: white;'>
+                <div style='cursor: pointer; padding: 10px; text-align: center;' class='barOption'>Create new</div>
+                <div style='cursor: pointer; padding: 10px; text-align: center;' class='barOption'>My QR code</div>
+                <div style='cursor: pointer; padding: 10px; text-align: center;' class='barOption'>Get link</div>
             </div>
         </div>
+        <button type="button" style=" outline: none;   position: absolute; top: 5px; right: 150px; padding: 3px 40px; border-radius: 5px; background-color: #3692ca; border-color: #277fc8; color: white; ">Login</button>
         <button type="button" style=" outline: none;   position: absolute; top: 5px; right: 4px; padding: 3px 40px; border-radius: 5px; background-color: #ea645d; border-color: #f57373; color: white;">Logout</button>
         <form action="{{ route('fileUpload') }}" method="post" enctype="multipart/form-data" id="theForm" style='width: 450px; margin: auto;'>
             <h3 class="text-center mb-5">Upload File in Laravel</h3>
@@ -46,26 +58,32 @@
                 <strong>{{ $message }}</strong>
             </div>
             @endif
-            @if (count($errors) > 0)
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-            @endif
-            <div style="width: 100%;"> 
-                <input type="text" class="form-control " placeholder="Tên dự án" style=' width: 84%;' name="name"></div>
-            <div class="d-flex align-items-center" style='position: relative;'>
-                <div class="custom-files" style="width: 100%">
-                    <div class="custom-file custom-file0 mt-3" data-index='0' style='position: relative;'>
-                        <input type="file" name="files[]" class='onInput' data-index='0' id="chooseFile0" hidden onchange="displayFileName(this)" multiple>
-                        <input type="text" name="name" class="form-control replaceName" data-index='0' oninput='handleLoadText(this)' placeholder="Tên dự án" style='position: absolute; width: 84%;'>
-                        <label class="custom-file-label" data-index='0' for="chooseFile0">Select file</label>
-                    </div>
+            <div style='width: auto; background-color: white; width: auto; padding: 21px 15px; box-shadow: 0 0 6px; border-radius: 5px;'>
+                @if (count($errors) > 0)
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
                 </div>
-                <button style="height: fit-content; width: fit-content ;position: absolute; right: -96px; top: -40px; font-size: 27px; padding: 0px 32px; display: flex; align-items: center;" class="addtextbox btn-info border-0 rounded-1 rounded text-capitalize" type="button">+</button>
+                @endif
+                <div style="width: 100%;">
+                    <input type="text" class="form-control " placeholder="Tên dự án" style=' width: 84%;' name="name">
+                </div>
+                <div class="d-flex align-items-center" style='position: relative;'>
+                    <div class="custom-files" style="width: 84%">
+                        <div class="custom-file custom-file0 mt-3" data-index='0' style='position: relative;'>
+                            <input type="file" name="files[]" class='onInput' data-index='0' id="chooseFile0" hidden onchange="displayFileName(this)" multiple>
+                            <input type="text" name="name" class="form-control replaceName" data-index='0' oninput='handleLoadText(this)' placeholder="Tên dự án" style='position: absolute; width:79%;'>
+                            <label class="custom-file-label" data-index='0' for="chooseFile0">Select file</label>
+                        </div>
+                    </div>
+                    <button style="height: fit-content; width: fit-content ;position: absolute; right: -9px; top: 16px; font-size: 25px; padding: 0px 27px; display: flex; align-items: center;" class="addtextbox btn-info border-0 rounded-1 rounded text-capitalize" type="button">+</button>
+                </div>
+                <button type="button" onclick="formSubmit(this)" name="submit" class=" btn btn-primary btn-block mt-4 buttonSubmitUploadFile">
+                    Upload Files
+                </button>
             </div>
             <script>
                 function displayFileName() {
@@ -77,19 +95,17 @@
                     input.value = fileName; // Set tên file vào giá trị (value) của input
                 }
             </script>
-            <button type="button" onclick="formSubmit(this)" name="submit" class=" btn btn-primary btn-block mt-4 buttonSubmitUploadFile">
-                Upload Files
-            </button>
-            <div style="width: 10px; height: 265px;"></div>
-            <div id="downloadQR" style=" width: 250px; position: absolute; right: 4px; height: 250px; top: 203px;">  
-                @if ($image = Session::get('qrcode')) 
+
+            <div style="width: 10px; height: 265px; "></div>
+            <div id="downloadQR" style=" width: 250px; position: absolute; right: 4px; height: 250px; top: 203px;">
+                @if ($image = Session::get('qrcode'))
                 <div style="width: 100%; height: 100%;">
-                    <img style="width: 100%; height: 100%;" src="data:image/png;base64,{{ base64_encode($image) }}" alt="QR Code">            
+                    <img style="width: 100%; height: 100%;" src="data:image/png;base64,{{ base64_encode($image) }}" alt="QR Code">
                 </div>
-                <div style=" width: 100%; text-align: center; padding: 2px 4px; border: 1px solid;"> 
-                    <a type="button" href="data:image/png;base64,{{ base64_encode($image) }} " download>Downloads</a>
+                <div style=" width: 100%; text-align: center; padding: 2px 4px; border: 1px solid;     margin-top: 5px; border-radius: 5px; background-color: #007bff;">
+                    <a type="button" style="color: white" href="data:image/png;base64,{{ base64_encode($image) }} " download>Downloads</a>
                 </div>
-                @endif                       
+                @endif
             </div>
         </form>
         <script>
@@ -136,7 +152,7 @@
                                     <input type="file" name="file" class="custom-file-input onInput" data-index='${index}' id="chooseFile${index}"
                                     onchange="displayFileName(this)">
                                     <input type="text" name="name" class="form-control replaceName" data-index='${index}'
-                            placeholder="Tên dự án" style='position: absolute; top: 0px; left: 0px; width: 84%;' oninput='handleLoadText(this)'>
+                            placeholder="Tên dự án" style='position: absolute; top: 0px; left: 0px; width: 79%;' oninput='handleLoadText(this)'>
                                     <label class="custom-file-label" data-index='${index}' for="chooseFile${index}">Select file</label>
                             </div>`
 
@@ -167,7 +183,8 @@
                     }
                     Array.from(rr).map(r => {
                         if (r.dataset.index === input.dataset.index) {
-                            r.setAttribute('style', 'position: absolute; width: 84%; z-index: 5; top: 0px')
+                            r.setAttribute('style',
+                                'position: absolute; padding-right: 40px; width: 79%; z-index: 5; top: 0px')
                             r.value = input.files[0].name
                         }
                     })
@@ -187,7 +204,7 @@
                                 `.custom-file${input.dataset.index}`).getAttribute('class')) {
                             const fileName = input.files[0].name;
                             const divBut =
-                                `<button type='button' onclick="handleDelete(this)" class='buttonReplaceName' data-index='${input.dataset.index}' style="position: absolute; left: -99px; top: 5px; padding: 2px 5px; border-radius: 5px; border: 1px solid #2acb95; font-size: 14px; cursor: pointer;">Delete</button>`
+                                `<div  onclick="handleDelete(this)" class='buttonReplaceName' data-index='${input.dataset.index}' style="position: absolute; right: 81px; top: 8px;padding: 2px 7px; border-radius: 5px; border: 1px solid #2acb95; font-size: 14px; cursor: pointer; z-index: 5; background-color: white; border: 0;"><i class="fa-solid fa-minus"></i></div>`
                             e.insertAdjacentHTML('beforeend', divBut)
 
                         }
