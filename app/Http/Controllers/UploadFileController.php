@@ -21,7 +21,6 @@ class UploadFileController extends Controller
     }
     public function fileUpload(Request $request)
     {
-        dd(url($path = 'app/'.'public/' . 'uploads' . '/' . 'abc'));
         // $randomString = Str::random(7);
         // $path = 'app/'.'public/' . 'uploads' . '/' . $randomString;
         // $qrCodeData = base64_encode(QrCode::format('png')->size(300)->generate('abc'));
@@ -31,7 +30,6 @@ class UploadFileController extends Controller
         // file_put_contents(storage_path($path), $qrCodeData);        
         //  return redirect()->route('show-form-uploadFile')->with('success', 'Multiple File has been uploaded Successfully')
         // ->with('image', $qrCodeData);
-
 
         $validatedData = $request->validate([
             'files' => 'required',
@@ -45,6 +43,7 @@ class UploadFileController extends Controller
             if (!File::exists(storage_path($path))) {
                 File::makeDirectory($path, 0755, true, true);
             }
+            $qrCodeData = QrCode::format('png')->size(300)->generate(url($randomString));
         }else{
             $path = 'public/' . 'uploads' . '/' . $request->session()->get('id') . '/' . $request->name;
             if (!File::exists(storage_path($path))) {
@@ -75,21 +74,11 @@ class UploadFileController extends Controller
                 // Sử dụng ID để tạo link QRCode
                 $file_db->qrcode = url('storagefile/' . $fileId . '/edit');
                 $file_db->save();
-            }
-            //download-QRCODE
-            //  $path_qr =  QrCode::size(100)->generate($file->qrcode); 
-
-            // if (File::exists($path)) {
-            //     return response()->download($path);
-            // } else {
-            //     return "File not found";
-            // }
-            $qrCodeData = QrCode::format('png')->size(300)->generate('abc');
-          
-        return redirect()->route('show-form-uploadFile')->with('qrcode', $qrCodeData);
-         
+                $qrCodeData = QrCode::format('png')->size(50)->generate(url($file_db->qrcode));
+            }                
         }
-        return redirect()->route('show-form-uploadFile')->with('success', 'Multiple File has been uploaded Successfully');
+        return redirect()->route('show-form-uploadFile')->with('success', 'Multiple File has been uploaded Successfully')
+        ->with('qrcode', $qrCodeData);;
     }
     public function allfile()
     {
@@ -215,7 +204,8 @@ class UploadFileController extends Controller
     public function show_edit_anonymous(Request $request){       
         $parts = explode('/', $request->getPathInfo());
         $info = $parts[1];
-        $files = File::files(storage_path('app/public/uploads/' .  $info));
-        dd($files);  
+        $files = File::files(storage_path('app/public/uploads/' . $info));
+        $path = storage_path('app/public/uploads/' . $info);
+//kphwWsS
     }
 }
