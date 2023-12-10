@@ -9,10 +9,19 @@
                         <h3>Quản lý file</h3>
                     </div>
                     <div class="col-md-6">
-                        <a href="{{route('show-form-uploadFile')}}" class="btn btn-primary float-end">Thêm mới</a>
+                        <div class="float-end">
+                            <a href="{{route('show-form-uploadFile')}}" class="btn btn-primary">Thêm mới</a>
+                        </div>
+                        <div class="col-md-6">
+                            <form action="" method="GET" class="form-inline">
+                                <div class="form-group mx-sm-3 mb-2">
+                                    <label for="search" class="sr-only">Tìm kiếm</label>
+                                    <input type="text" class="form-control" id="search" name="search" placeholder="Tìm kiếm">
+                                </div>
+                                <button type="submit" class="btn btn-primary mb-2">Tìm kiếm</button>
+                            </form>
+                        </div>
                     </div>
-                </div>
-            </div>
             <div class="card-body">
                 <table  class="table table-bordered">
                     <thead>

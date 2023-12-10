@@ -52,9 +52,13 @@
                             </div>
                             <strong>Mã QR</strong>
                             <div class="card-body">
-                                {{-- {!! QrCode::size(100)->generate($file->qrcode) !!} --}}
+                                {!! QrCode::size(100)->generate($file->qrcode) !!}
                             </div>
-
+                            <div style=" width: 100%; text-align: center; padding: 2px 4px; border: 1px solid;"> 
+                               
+                           <a href="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(300)->generate('Generate any QR Code!')) !!} " download>Downloads</a>
+                                
+                            </div>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-success mt-2">Cập nhật</button>

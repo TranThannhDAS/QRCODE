@@ -87,8 +87,8 @@
                     <img style="width: 100%; height: 100%;" src="data:image/png;base64,{{ base64_encode($image) }}" alt="QR Code"> 
                 </div>
                 <div style=" width: 100%; text-align: center; padding: 2px 4px; border: 1px solid;"> 
-                    <a type="button" href="data:image/png;base64,{{ base64_encode($image) }} " download>Downloads</a>
-                </div>
+                     <a href="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(300)->generate('Generate any QR Code!')) !!} " download>Downloads</a>
+               </div>
                 @endif                       
             </div>
         </form>

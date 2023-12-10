@@ -149,16 +149,15 @@ class UploadFileController extends Controller
     }
     public function doedit(Request $request)
     {
-        $files = Files::find($request->id);
-        if($files->userid !== session('id')){
-            abort(404);
-        }
         if (!session('id')) {
             //     //tạo ra QR code rồi lưu vào dự án thông qua httplocalhost
             //     //địa chỉ storage
             return redirect()->route('show-form-login');
         }
-       
+        $files = Files::find($request->id);
+        if($files->userid !== session('id')){
+            abort(404);
+        }      
         $nameOld = $request->get('nameOld');
         $nameNew = $request->get('nameNew');
         $Oldpath = storage_path('app\public\uploads/' . session()->get('id') . '/' . $nameOld);
@@ -195,8 +194,6 @@ class UploadFileController extends Controller
         $file = DB::table('anonymous_files')
         ->where('hashcode', 'uUuaNzxqV6gp')
         ->first();
-        dd($file);
         return view('show-file.edit', compact('file', 'files'));
-
     }
 }
