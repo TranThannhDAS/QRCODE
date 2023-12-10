@@ -39,17 +39,17 @@ class UploadFileController extends Controller
             //     //tạo ra QR code rồi lưu vào dự án thông qua httplocalhost
             //     //địa chỉ storage
             $randomString = Str::random(7);
-            $path = 'public/' . 'uploads' . '/' . $randomString.'/'.$request->name;
+            $path = 'public/' . 'uploads' . '/' . $randomString . '/' . $request->name;
             if (!File::exists(storage_path($path))) {
                 File::makeDirectory($path, 0755, true, true);
             }
             $qrCodeData = QrCode::format('png')->size(300)->generate(url($randomString));
-        }else{
+        } else {
             $path = 'public/' . 'uploads' . '/' . $request->session()->get('id') . '/' . $request->name;
             if (!File::exists(storage_path($path))) {
                 File::makeDirectory($path, 0755, true, true);
-            }  
-        }              
+            }
+        }
         $fileBag = $request->file('files');
         if ($fileBag) {
             // Lấy danh sách các file
@@ -63,38 +63,39 @@ class UploadFileController extends Controller
                 print_r($path_pdf);
                 $allFilePaths .= $path_pdf . '|';
             }
-            if($request->session()->has('id')){
+            if ($request->session()->has('id')) {
                 $file_db = new Files();
                 $file_db->name = $request->name;
                 $file_db->filepath = $allFilePaths;
                 $file_db->userid = $request->session()->get('id');
                 $file_db->save();
                 $fileId = $file_db->id;
-    
+
                 // Sử dụng ID để tạo link QRCode
                 $file_db->qrcode = url('storagefile/' . $fileId . '/edit');
                 $file_db->save();
                 $qrCodeData = QrCode::format('png')->size(50)->generate(url($file_db->qrcode));
-            }                
+            }
         }
         return redirect()->route('show-form-uploadFile')->with('success', 'Multiple File has been uploaded Successfully')
-        ->with('qrcode', $qrCodeData);;
+            ->with('qrcode', $qrCodeData);;
     }
     public function allfile()
     {
-        if (!session('id')) {
-            //     //tạo ra QR code rồi lưu vào dự án thông qua httplocalhost
-            //     //địa chỉ storage
-            return redirect()->route('show-form-login');
-        }
-        $file = DB::table('files')->where('userid', session('id'))->get();
+        // if (!session('id')) {
+        //     //     //tạo ra QR code rồi lưu vào dự án thông qua httplocalhost
+        //     //     //địa chỉ storage
+        //     return redirect()->route('show-form-login');
+        // }
+        // $file = DB::table('files')->where('userid', session('id'))->get();
 
-        return view('show-file.index', compact('file'));
+        // return view('show-file.index', compact('file'));
+        return view('show-file.index');
     }
     public function show_edit($id)
     {
         $files = Files::find($id);
-        if($files->userid !== session('id')){
+        if ($files->userid !== session('id')) {
             abort(404);
         }
         if (!session('id')) {
@@ -163,7 +164,7 @@ class UploadFileController extends Controller
     public function doedit(Request $request)
     {
         $files = Files::find($request->id);
-        if($files->userid !== session('id')){
+        if ($files->userid !== session('id')) {
             abort(404);
         }
         if (!session('id')) {
@@ -171,7 +172,7 @@ class UploadFileController extends Controller
             //     //địa chỉ storage
             return redirect()->route('show-form-login');
         }
-       
+
         $nameOld = $request->get('nameOld');
         $nameNew = $request->get('nameNew');
         $Oldpath = storage_path('app\public\uploads/' . session()->get('id') . '/' . $nameOld);
@@ -201,11 +202,12 @@ class UploadFileController extends Controller
         }
         return redirect()->route('storagefile');
     }
-    public function show_edit_anonymous(Request $request){       
+    public function show_edit_anonymous(Request $request)
+    {
         $parts = explode('/', $request->getPathInfo());
         $info = $parts[1];
         $files = File::files(storage_path('app/public/uploads/' . $info));
         $path = storage_path('app/public/uploads/' . $info);
-//kphwWsS
+        //kphwWsS
     }
 }
