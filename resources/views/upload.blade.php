@@ -84,7 +84,7 @@
             <div id="downloadQR" style=" width: 250px; position: absolute; right: 4px; height: 250px; top: 203px;">  
                 @if ($image = Session::get('qrcode')) 
                 <div style="width: 100%; height: 100%;">
-                    <img style="width: 100%; height: 100%;" src="data:image/png;base64,{{ base64_encode($image) }}" alt="QR Code">            
+                    <img style="width: 100%; height: 100%;" src="data:image/png;base64,{{ base64_encode($image) }}" alt="QR Code"> 
                 </div>
                 <div style=" width: 100%; text-align: center; padding: 2px 4px; border: 1px solid;"> 
                     <a type="button" href="data:image/png;base64,{{ base64_encode($image) }} " download>Downloads</a>

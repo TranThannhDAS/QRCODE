@@ -5,14 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Files extends Model
+class Anonymous_file extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'name',
-        'filepath',
-        'userid',
-        'qrcode',
-        'hashcode'
+        'hashcode',
+        'name',   
+        'qrcode'  
     ];
 }

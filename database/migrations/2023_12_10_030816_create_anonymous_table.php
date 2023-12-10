@@ -13,18 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('files', function (Blueprint $table) {
+        Schema::create('anonymous_files', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
-            $table->text('filepath')->nullable();
-            $table->unsignedBigInteger('userid');
-            $table->foreign('userid')->references('id')->on('users');
-            $table->string('qrcode')->nullable();
             $table->string('hashcode')->nullable();
+            $table->string('name')->nullable();    
+            $table->string('qrcode')->nullable();    
             $table->timestamps();
         });
     }
-
 
     /**
      * Reverse the migrations.
@@ -33,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('files');
+        Schema::dropIfExists('anonymous_files');
     }
 };

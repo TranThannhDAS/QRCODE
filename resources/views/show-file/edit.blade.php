@@ -52,7 +52,7 @@
                             </div>
                             <strong>Mã QR</strong>
                             <div class="card-body">
-                                {!! QrCode::size(100)->generate($file->qrcode) !!}
+                                {{-- {!! QrCode::size(100)->generate($file->qrcode) !!} --}}
                             </div>
 
                         </div>

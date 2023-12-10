@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use App\Http\Controllers\Response;
+use App\Models\Anonymous_file;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -21,35 +22,20 @@ class UploadFileController extends Controller
     }
     public function fileUpload(Request $request)
     {
-        // $randomString = Str::random(7);
-        // $path = 'app/'.'public/' . 'uploads' . '/' . $randomString;
-        // $qrCodeData = base64_encode(QrCode::format('png')->size(300)->generate('abc'));
-        // if (!File::exists(storage_path($path))) {
-        //     File::makeDirectory($path, 0755, true, true);
-        // }
-        // file_put_contents(storage_path($path), $qrCodeData);        
-        //  return redirect()->route('show-form-uploadFile')->with('success', 'Multiple File has been uploaded Successfully')
-        // ->with('image', $qrCodeData);
 
+        $randomString = Str::random(12);
         $validatedData = $request->validate([
             'files' => 'required',
             'files.*' => 'mimes:csv,txt,xlx,xls,pdf,doc,docx'
         ]);
         if (!$request->session()->has('id')) {
-            //     //tạo ra QR code rồi lưu vào dự án thông qua httplocalhost
-            //     //địa chỉ storage
-            $randomString = Str::random(7);
-            $path = 'public/' . 'uploads' . '/' . $randomString.'/'.$request->name;
-            if (!File::exists(storage_path($path))) {
-                File::makeDirectory($path, 0755, true, true);
-            }
-            $qrCodeData = QrCode::format('png')->size(300)->generate(url($randomString));
+            $path = 'public/' . 'uploads' . '/' . $randomString;         
         }else{
-            $path = 'public/' . 'uploads' . '/' . $request->session()->get('id') . '/' . $request->name;
-            if (!File::exists(storage_path($path))) {
-                File::makeDirectory($path, 0755, true, true);
-            }  
-        }              
+            $path = 'public/' . 'uploads' . '/' . $request->session()->get('id') . '/' . $randomString;           
+        }        
+        if (!File::exists(storage_path($path))) {
+            File::makeDirectory($path, 0755, true, true);
+        }       
         $fileBag = $request->file('files');
         if ($fileBag) {
             // Lấy danh sách các file
@@ -58,9 +44,7 @@ class UploadFileController extends Controller
             foreach ($fileBag as $key => $file) {
                 // Lấy tên file
                 $fileName = $file->getClientOriginalName();
-                print_r($fileName . "<br>");
                 $path_pdf = $file->storeAs($path, $fileName);
-                print_r($path_pdf);
                 $allFilePaths .= $path_pdf . '|';
             }
             if($request->session()->has('id')){
@@ -74,7 +58,14 @@ class UploadFileController extends Controller
                 // Sử dụng ID để tạo link QRCode
                 $file_db->qrcode = url('storagefile/' . $fileId . '/edit');
                 $file_db->save();
-                $qrCodeData = QrCode::format('png')->size(50)->generate(url($file_db->qrcode));
+                $qrCodeData = QrCode::format('png')->size(50)->generate($file_db->qrcode);
+            }else{
+                $anonymous = new Anonymous_file();
+                $anonymous->hashcode = $randomString;
+                $anonymous->name = $request->name;
+                $anonymous->qrcode = url($randomString);
+                $anonymous->save();
+                $qrCodeData = QrCode::format('png')->size(300)->generate($anonymous->qrcode);
             }                
         }
         return redirect()->route('show-form-uploadFile')->with('success', 'Multiple File has been uploaded Successfully')
@@ -93,24 +84,20 @@ class UploadFileController extends Controller
     }
     public function show_edit($id)
     {
+        if (!session('id')) {
+            return redirect()->route('show-form-login');
+        }
         $files = Files::find($id);
         if($files->userid !== session('id')){
             abort(404);
         }
-        if (!session('id')) {
-            //     //tạo ra QR code rồi lưu vào dự án thông qua httplocalhost
-            //     //địa chỉ storage
-            return redirect()->route('show-form-login');
-        }
+       
         $file = DB::table('files')
             ->where('id', '$id')
             ->where('userid', session('id'))
             ->get();
-        $files = File::files(storage_path('app/public/uploads/' . session('id') . '/' . $file->name));
+        $files = File::files(storage_path('app/public/uploads/' . session('id') . '/' . $file->hashcode));
         return view('show-file.edit', compact('file', 'files'));
-    }
-    public function edit(Files $file)
-    {
     }
 
     public function ondownload(Request $request)
@@ -204,8 +191,12 @@ class UploadFileController extends Controller
     public function show_edit_anonymous(Request $request){       
         $parts = explode('/', $request->getPathInfo());
         $info = $parts[1];
-        $files = File::files(storage_path('app/public/uploads/' . $info));
-        $path = storage_path('app/public/uploads/' . $info);
-//kphwWsS
+        $files = File::files(storage_path('app/public/uploads/' . 'uUuaNzxqV6gp'));
+        $file = DB::table('anonymous_files')
+        ->where('hashcode', 'uUuaNzxqV6gp')
+        ->first();
+        dd($file);
+        return view('show-file.edit', compact('file', 'files'));
+
     }
 }
