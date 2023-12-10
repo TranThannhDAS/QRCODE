@@ -9,7 +9,7 @@
                         <h3>Sửa File</h3>
                     </div>
                     <div class="col-md-6">
-                        <a href="{{ route('storagefile') }}" class="btn btn-primary float-end">Danh sách sinh viên</a>
+                        <a href="{{ route('storagefile') }}" class="btn btn-primary float-end">Danh sách QR</a>
                     </div>
                 </div>
             </div>
@@ -26,9 +26,7 @@
                                        </div>
                                     <strong>Tên</strong>
                                     <input type="text" class="nameNew" name="nameNew" class="form-control"
-                                        value="{{ $file->name }}" placeholder="Nhập họ tên">
-                                        <input type="hidden" class="nameOld" name="nameOld" class="form-control"
-                                        value="{{ $file->name }}">                             
+                                        value="{{ $file->name }}" placeholder="Nhập họ tên">                                                           
                                        </div>
                             </div>
                             <div class="form-group">
@@ -39,7 +37,7 @@
                                     <input type="text" name="nameFile[]" id="nameFile" class="form-control check1"
                                         value="{{ $item->getFilename() }}" data-realpart="{{ $item->getRealPath() }}"
                                         placeholder="Nhập họ tên">
-                                    <a type="button" href="http://127.0.0.1:8000/storagefile/download?path={{ $item->getFilename() }}&&name={{ $file->name }}" class="btn btn-info"  onclick="download({{ $loop->index }})">Xem</a>
+                                    <a type="button" href="http://127.0.0.1:8000/storagefile/download?path={{ $item->getFilename() }}&&name={{ $file->name }}&&id={{ $file->id }}" class="btn btn-info"  onclick="download({{ $loop->index }})">Xem</a>
                                         <a type="button" href="http://127.0.0.1:8000/storagefile/delete?path={{ $item->getFilename() }}&&name={{ $file->name }}&&id={{ $file->id }}" class="btn btn-danger"  onclick="download({{ $loop->index }})">Xóa</a>
                                 @endforeach                                
                             </div>
