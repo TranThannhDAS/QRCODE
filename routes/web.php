@@ -16,10 +16,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-Route::resource('/sinhvien',SinhvienController::class);
 
 Route::get('register',[AuthController::class, 'showFormRegister'])->name('show-form-register');
 Route::post('register',[AuthController::class, 'register'])->name('register');
@@ -34,8 +30,8 @@ Route::get('profile',[AuthController::class, 'showProfile'])->name('show-profile
 Route::post('profile',[AuthController::class, 'profile'])->name('profile');
 
 
-Route::get('upload-file',[UploadFileController::class, 'createForm'])->name('show-form-uploadFile');
-Route::post('upload-file',[UploadFileController::class, 'fileUpload'])->name('fileUpload');
+Route::get('/',[UploadFileController::class, 'createForm'])->name('show-form-uploadFile');
+Route::post('/',[UploadFileController::class, 'fileUpload'])->name('fileUpload');
 Route::get('storagefile',[UploadFileController::class,'allfile'])->name('storagefile');
 
 Route::get('storagefile/{id}/edit',[UploadFileController::class,'show_edit'])->name('show_edit');
@@ -49,5 +45,4 @@ Route::get('storagefile/delete',[UploadFileController::class,'ondelete'])->name(
 Route::delete('storagefile/deleteall/{id}',[UploadFileController::class,'deleteall'])->name('deleteall');
 
 Route::get('find',[UploadFileController::class, 'find'])->name('find');
-Route::get('logout',[AuthController::class,'logout'])->name('logout');
 Route::get('{hash}',[UploadFileController::class,'show_edit_anonymous'])->name('anonymous');

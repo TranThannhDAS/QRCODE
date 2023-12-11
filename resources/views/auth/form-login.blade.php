@@ -7,7 +7,9 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card" style="box-shadow: 0 0 5px #76cff2;">
-                <div class="card-header">{{ __('Login') }}</div>
+                <div class="card-header">{{ __('Login') }}
+                 <a href="{{ url('') }}" style="margin-left: 650px"   class="btn btn-info">Tạo mã QR</a>
+                </div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
@@ -33,7 +35,7 @@
                                 <button type="submit" class="btn btn-primary">
                                     Login
                                 </button>
-                                <a href="register">register</a>
+                                <a href="{{ url('register') }}">register</a>
                             </div>
                         </div>
                     </form>

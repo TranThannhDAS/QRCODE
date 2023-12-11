@@ -43,16 +43,25 @@
                 <div style="    width: 147px; height: 50px; border: 1px solid; display: flex; align-items: center; justify-content: center; border-radius: 5px; box-shadow: 0 0 2px wheat; background-color: #b5d0f3;">
                     QR code</div>
             </div>
-            <div style='border: 1px solid #333333; margin-top: 10px; border-radius: 5px; box-shadow: 0 0 2px #d2ba8d; background-color: #474b4d; color: white;'>
-                <div style='cursor: pointer; padding: 10px; text-align: center;' class='barOption'>Create new</div>
-                <div style='cursor: pointer; padding: 10px; text-align: center;' class='barOption'>My QR code</div>
-                <div style='cursor: pointer; padding: 10px; text-align: center;' class='barOption'>Get link</div>
+            <div style='border: 1px solid #333333; margin-top: 10px; border-radius: 5px; box-shadow: 0 0 2px #d2ba8d; background-color: cornsilk; color: white;'>
+                <div style='cursor: pointer; padding: 10px; text-align: center;' class='barOption'>
+                    <a href="#">Tạo mới</a> 
+                </div>
+                <div style='cursor: pointer; padding: 10px; text-align: center;' class='barOption'>
+                   <a href="{{ route('storagefile') }}">Mã của tôi</a> 
+                </div>
+                <div style='cursor: pointer; padding: 10px; text-align: center;' class='barOption'>
+                    <a href="#" >Lấy link</a> 
+                </div>
             </div>
         </div>
-        <button type="button" style=" outline: none;   position: absolute; top: 5px; right: 150px; padding: 3px 40px; border-radius: 5px; background-color: #3692ca; border-color: #277fc8; color: white; ">Login</button>
-        <button type="button" style=" outline: none;   position: absolute; top: 5px; right: 4px; padding: 3px 40px; border-radius: 5px; background-color: #ea645d; border-color: #f57373; color: white;">Logout</button>
+        @if (session()->has('id'))
+        <a href="{{ url('logout') }}" style=" outline: none;   position: absolute; top: 5px; right: 9px; padding: 3px 40px; border-radius: 5px; background-color: #ea645d; border-color: #f57373; color: white;">Đăng xuất</a>
+        @else
+        <a href="{{ url('login') }}" style=" outline: none;   position: absolute; top: 5px; right: 9px; padding: 3px 40px; border-radius: 5px; background-color: #3692ca; border-color: #277fc8; color: white; ">Đăng nhập</a>
+        @endif
         <form action="{{ route('fileUpload') }}" method="post" enctype="multipart/form-data" id="theForm" style='width: 450px; margin: auto;'>
-            <h3 class="text-center mb-5">Upload File in Laravel</h3>
+            <h3 class="text-center mb-5">Tạo mã QR</h3>
             @csrf
             @if ($message = Session::get('success')) <div class="alert alert-success">
                 <strong>{{ $message }}</strong>
@@ -69,7 +78,7 @@
                 </div>
                 @endif
                 <div style="width: 100%;">
-                    <input type="text" class="form-control " placeholder="Tên dự án" style=' width: 84%;' name="name">
+                    <input type="text" class="form-control " placeholder="Tên dự án" style=' width: 84%;' name="name" required>
                 </div>
                 <div class="d-flex align-items-center" style='position: relative;'>
                     <div class="custom-files" style="width: 84%">
@@ -82,7 +91,7 @@
                     <button style="height: fit-content; width: fit-content ;position: absolute; right: -9px; top: 16px; font-size: 25px; padding: 0px 27px; display: flex; align-items: center;" class="addtextbox btn-info border-0 rounded-1 rounded text-capitalize" type="button">+</button>
                 </div>
                 <button type="button" onclick="formSubmit(this)" name="submit" class=" btn btn-primary btn-block mt-4 buttonSubmitUploadFile">
-                    Upload Files
+                    Tải files & tạo mã QR
                 </button>
             </div>
             <script>
@@ -204,7 +213,9 @@
                                 `.custom-file${input.dataset.index}`).getAttribute('class')) {
                             const fileName = input.files[0].name;
                             const divBut =
-                                `<div  onclick="handleDelete(this)" class='buttonReplaceName' data-index='${input.dataset.index}' style="position: absolute; right: 81px; top: 8px;padding: 2px 7px; border-radius: 5px; border: 1px solid #2acb95; font-size: 14px; cursor: pointer; z-index: 5; background-color: white; border: 0;"><i class="fa-solid fa-minus"></i></div>`
+                                `<div  onclick="handleDelete(this)" class='buttonReplaceName' 
+                                data-index='${input.dataset.index}' 
+                                style="position: absolute;right: 79px;top: 6px;padding: 2px 7px; border-radius: 5px; border: 1px solid #2acb95; font-size: 14px; cursor: pointer; z-index: 5; background-color: #c67878;  border: 0;color: white;">Xóa</div>`
                             e.insertAdjacentHTML('beforeend', divBut)
 
                         }

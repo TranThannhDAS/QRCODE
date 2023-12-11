@@ -87,7 +87,7 @@
                                 <button type="submit" class="btn btn-primary">
                                     Đăng ký
                                 </button>
-                                <a href="login">Login</a>
+                                <a href="{{ url('login') }}">Login</a>
                             </div>
                         </div>
                     </form>

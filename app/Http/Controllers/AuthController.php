@@ -35,8 +35,12 @@ class AuthController extends Controller
         if(Auth::attempt(['email' => $request->email, 'password' => $request->pass])){
             $checkmail = User::where('email', $request->email)->first();
             $request->session()->put('id', $checkmail->id);
-            return redirect()->route('sinhvien.index');
+            return redirect()->route('show-form-uploadFile');
         }
         return redirect()->route('show-form-login')->with('error','Tài khoản hoặc mật khẩu không đúng');
+    }
+    public function logout(){
+       session()->forget('id');
+       return redirect()->route('show-form-login');
     }
 }
