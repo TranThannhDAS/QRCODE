@@ -147,10 +147,11 @@ class UploadFileController extends Controller
         if (!session('id')) {      
                 return redirect()->route('show-form-login');
             }
+
             $validatedData = $request->validate([
-                'files' => 'required',
                 'files.*' => 'mimes:csv,txt,xlx,xls,pdf,doc,docx'
             ]);
+
             $files = Files::find($request->id);
             $path = 'public/' . 'uploads' . '/' . $request->session()->get('id') . '/' . $files->hashcode;
         
@@ -172,7 +173,7 @@ class UploadFileController extends Controller
             DB::table('files')
             ->where('id', $request->id)
             ->update(['name' => $request->nameNew]);
-        }  
+        } 
         return redirect()->route('storagefile');
     }
     public function show_edit_anonymous(Request $request)

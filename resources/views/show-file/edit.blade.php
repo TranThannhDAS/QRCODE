@@ -28,13 +28,13 @@
                                         value="{{ $file->id }}">
 
                                 </div>
-                                <h3 style="font-size: 16px; margin: 0">Name</h3>
+                                <h3 style="font-size: 16px; margin: 0">Tên dự án</h3>
                                 @if (session()->has('id'))
-                                    <input type="text" class="nameNew" placeholder='Name' name="nameNew"
+                                    <input type="text" class="nameNew" name="nameNew"
                                         style='outline: none; border-radius: 5px; border: 2px solid #46b4f7; padding: 2px 4px;'
-                                        class="form-control" value="{{ $file->name }}" placeholder="Nhập họ tên">
+                                        class="form-control" value="{{ $file->name }}" placeholder="Nhập tên dự án">
                                 @else
-                                    <input type="text" class="nameNew" placeholder='Name' name="nameNew"
+                                    <input type="text" class="nameNew" placeholder='Name' name="name123"
                                         style='outline: none; border-radius: 5px; border: 2px solid #46b4f7; padding: 2px 4px;'
                                         class="form-control" value="{{ $file->name }}" placeholder="Nhập họ tên" disabled>
                                 @endif
@@ -120,11 +120,11 @@
                                 </div>
                             </div>
                         </div>
-                        @if (session()->has('id'))
-                            <button type="button" name="submit" onclick="formSubmit(this)"
+                            <button type="button" name="submit" onclick="formSubmit(this)" 
                                 class=" btn btn-primary btn-block mt-4 buttonSubmitUploadFile">
                                 Cập nhật
                             </button>
+                            @if (session()->has('id'))
                         @endif
                 </form>
             </div>
@@ -230,7 +230,7 @@
 
         const formSubmit = (e) => {
             const form = document.getElementById('theForm2')
-
+            const input1 = document.querySelector('.nameNew');
             const dataTransfer = new DataTransfer();
             // Add files to the DataTransfer object
             fileData.forEach((file) => {
@@ -243,7 +243,6 @@
                 if (f) f.remove();
             });
             //  Remove the old file inputs (assuming you have existing file inputs with class "custom-file")
-            HTMLFormElement.prototype.reset.call(form)
             // Append the FormData to the form
             const input = document.createElement('input');
             input.type = 'file';
@@ -254,6 +253,7 @@
             form.appendChild(input);
             console.log('why', fileData);
             HTMLFormElement.prototype.submit.call(form)
+            HTMLFormElement.prototype.reset.call(form)
 
         }
         let text = ''
