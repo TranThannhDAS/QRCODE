@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="container mt-2">
+    sss
     <div class="card" style="">
         <div class="card-header " style="box-shadow: 0 0 5px #1eabda;">
             <div class="row" style='padding-top: 20px;'>
@@ -32,7 +33,7 @@ border: 2px solid #46b4f7;" name="query" placeholder="Search here....." value="{
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th>Mã QR</th>
+                                <th>Mã QRss</th>
                                 <th>Tên dự án</th>
                                 <th>Thao tác</th>
                             </tr>

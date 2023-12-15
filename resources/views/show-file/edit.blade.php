@@ -1,32 +1,54 @@
 @extends('layout')
 
 @section('content')
+<<<<<<< HEAD
   <input type="hidden" name="" id="" value={{ $check = $userid ?? null  }}>
     <div class="container">
         <div class="card" style='box-shadow: 0 0 5px #31c5d1;
+=======
+<div class="container">
+    <div class="card" style='box-shadow: 0 0 5px #31c5d1;
+>>>>>>> b5dea75 (ok)
     margin-top: 15px;'>
-            <div class="card-header">
-                <div class="row">
-                    <div class="col-md-6">
-                        <h3>Xem File</h3>
-                    </div>
-                    @if (session()->has('id'))
-                        <div class="col-md-6">
-                            <a href="{{ route('storagefile') }}" class="btn btn-primary float-end">Danh sách QR</a>
-                        </div>
-                    @endif
-                </div>
+        <div style='position: fixed; width: 100%; height: 40px; top: 0; left: 0; display: flex; align-items: center; justify-content: space-between '>
+            <div style="color: #0561CE; width: 150px;">
+                <div><i class="fa-solid fa-expand"></i></div>
+                <p>QRHOP</p>
             </div>
-            <div class="card-body" style>
-                <form action="{{ route('doedit') }}" method="POST" enctype="multipart/form-data" id='theForm2'>
-                    @csrf
-                    @method('PUT')
-                    <div class="row" style='width: 500px; margin: auto; padding: 5px; margin-top: 5px;'>
-                        <div class="col-md-6" style='padding: 0px;'>
+            <div style='display: flex; align-items: center; padding: 0 50px;'>
+                <div style='display: flex; align-items: center; color: #0561CE;'>
+                    <a>TRANG CHỦ</a>
+                    <a>GIỚI THIỆU</a>
+                    <a>ĐÁNH GIÁ</a>
+                    <a>LỘ TRÌNH</a>
+                    <a>LIÊN HỆ</a>
+                </div>
+                <div style='display: flex; align-items: center;'><a style='background: #0561CE; color: black'>Đăng
+                        ký</a><a style='padding: 4px 10px; border-radius: 5px; color: white'>Đăng nhập</a></div>
+            </div>
+        </div>
+        ds
+        <div class="card-header">
+            <div class="row">
+                <div class="col-md-6">
+                    <h3>Xem File</h3>
+                </div>
+                @if (session()->has('id'))
+                <div class="col-md-6">
+                    <a href="{{ route('storagefile') }}" class="btn btn-primary float-end">Danh sách QR</a>
+                </div>
+                @endif
+            </div>
+        </div>
+        <div class="card-body" style>
+            <form action="{{ route('doedit') }}" method="POST" enctype="multipart/form-data" id='theForm2'>
+                @csrf
+                @method('PUT')
+                <div class="row" style='width: 500px; margin: auto; padding: 5px; margin-top: 5px;'>
+                    <div class="col-md-6" style='padding: 0px;'>
+                        <div class="form-group">
                             <div class="form-group">
-                                <div class="form-group">
-                                    <input type="hidden" class="nameOld" name="id" class="form-control"
-                                        value="{{ $file->id }}">
+                                <input type="hidden" class="nameOld" name="id" class="form-control" value="{{ $file->id }}">
 
                                 </div>
                                 <h3 style="font-size: 16px; margin: 0">Tên dự án</h3>
@@ -146,24 +168,40 @@
                 //     var result = "\\"+arr[8] + "\\" + arr[9] + "\\" + arr[10];
                 //     var input_name = document.querySelector('.name')
 
-                //     if (input_path) {
-                //         $.ajax({
-                //             method: "POST",
-                //             url: "{{ route('download') }}",
-                //             data: {
-                //                 _token: "{{ csrf_token() }}", // Bao gồm token CSRF trong dữ liệu
-                //                 path: result,
-                //             },                          
-                //         })
-                //     }
+                    <div style=" width: 100%; text-align: center;border-radius: 5px;border: 2px solid #46b4f7;  padding: 2px 4px;  margin-top: 10px;">
+                        <div class="text-center" style="margin-top: 50px;">
+                            <div>
+                                <div class="card-body" style=' width: 100px; height: 157px; margin: auto; padding: 0;'>
+                                    @if ($qrCodeData)
+                                    <div>
+                                        <img style="width:100%" src="data:image/png;base64,{{ base64_encode($qrCodeData) }}" alt="">
+                                    </div>
+                                    <div>
+                                        <a href="data:image/png;base64,{{ base64_encode($qrCodeData) }}" download>Downloads</a>
+                                    </div>
+                                    @endif
 
+                                    <p>My Qr Code</p>
+                                </div>
 
-                //     // Thực hiện xử lý tải xuống tại đây
-                // }
-            </script>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" name="submit" onclick="formSubmit(this)" class=" btn btn-primary btn-block mt-4 buttonSubmitUploadFile">
+                        Cập nhật
+                    </button>
+                    @if (session()->has('id'))
+                    @endif
+            </form>
         </div>
-    </div>
-    {{-- {{ route('download', ['files' => $item->getRealPath()]) }} --}}
+        <script>
+            // function download(index) {
+            //     // Sử dụng route và filePath ở đây để thực hiện tải xuống
+            //     console.log(index);
+            //     var input_path = document.querySelectorAll('.check1')[index].dataset.realpart
+            //     var arr = input_path.split("\\");
+            //     var result = "\\"+arr[8] + "\\" + arr[9] + "\\" + arr[10];
+            //     var input_name = document.querySelector('.name')
 
     <script>
         // const vl = document.getElementById('nameFile')
@@ -185,9 +223,9 @@
                                         <label class="custom-file-label" data-index='${index}' for="chooseFile${index}" style='width: 88%;'>Select file</label>
                                 </div>`
 
-            console.log(customFile);
-            customFile.insertAdjacentHTML('beforeend', div)
-        })
+        console.log(customFile);
+        customFile.insertAdjacentHTML('beforeend', div)
+    })
 
         // function handleReadonly(e) {
         //     e.value = defaultValue
@@ -203,14 +241,12 @@
                 if (fileData.some(f => f.id === input.dataset.index)) { // check data has exist?
 
                     fileData = fileData.map(f => {
-                        if (f.id === input.dataset.index) f.file = input.files[0]
+                        if (f.id === e.dataset.index) f.file = myRenamedFile
                         return f
                     })
                 } else {
-                    fileData.push({
-                        id: input.dataset.index,
-                        file: input.files[0]
-                    });
+                    e.value = text ? text : fileName
+                    console.log('voo 3');
                 }
                 console.log(fileData);
 
@@ -233,117 +269,37 @@
                             `<div  onclick="handleDelete(this)" class='buttonReplaceName' data-index='${input.dataset.index}' style="position: absolute;right: 140px;top: 6px;padding: 2px 7px; border-radius: 5px; border: 1px solid #2acb95; font-size: 14px; cursor: pointer; z-index: 5; background-color: #c67878;  border: 0;color: white;">Xóa</div>`
                         e.insertAdjacentHTML('beforeend', divBut)
 
-                    }
-                    console.log(e.getAttribute('class'), 'e.getAttribute');
-                })
+                // inputReplace.value = ''
+                // inputReplace.setAttribute('data-index', '0');
 
-            } else {
-                // Nếu không có file nào được chọn, thì hiển thị lại nội dung ban đầu của label
-                input.value = '';
-                label.innerHTML = 'Select file';
             }
-        }
+        })
+    }
+    const handleDelete = (e) => {
+        const butReplaceName = document.querySelectorAll('.buttonReplaceName')
+        const divCus = document.querySelectorAll('.custom-file')
+        const form = document.getElementById('theForm2')
+        const rr = document.querySelectorAll('.replaceName')
 
-        const formSubmit = (e) => {
-            const form = document.getElementById('theForm2')
-            const input1 = document.querySelector('.nameNew');
-            const dataTransfer = new DataTransfer();
-            // Add files to the DataTransfer object
-            fileData.forEach((file) => {
-                dataTransfer.items.add(file.file);
-            });
+        Array.from(divCus).map((f, index, arr) => {
+            console.log('delete', f, arr, rr);
 
-            //  Remove the old file inputs (assuming you have existing file inputs with class "custom-file")
-            const divCus = document.querySelectorAll('.custom-file');
-            divCus.forEach((f) => {
-                if (f) f.remove();
-            });
-            //  Remove the old file inputs (assuming you have existing file inputs with class "custom-file")
-            // Append the FormData to the form
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.name = 'files[]';
-            input.setAttribute('hidden', true)
-            input.multiple = true;
-            input.files = dataTransfer.files;
-            form.appendChild(input);
-            console.log('why', fileData);
-            HTMLFormElement.prototype.submit.call(form)
-            HTMLFormElement.prototype.reset.call(form)
-
-        }
-        let text = ''
-
-        const handleLoadText2 = (e) => { // change name and data here
-            const inputReplace = document.querySelector('input.replaceName')
-            const inputs = document.querySelectorAll('.onInput')
-            Array.from(inputs).map(inp => {
-                if (inp.dataset.index === e.dataset.index) {
-                    const fileName = inp.files[0].name;
-                    const pdfRegex = /\.pdf$/i; // Case-insensitive match for .pdf
-                    const docxRegex = /\.docx$/i; // Case-insensitive match for .docx
-                    const xlxsRegex = /\.xlxs$/i; // Case-insensitive match for .xlxs
-                    const docRegex = /\.doc$/i; // Case-insensitive match for .docx
-
-                    // Test the filename against each regex
-                    const isPdf = pdfRegex.test(e.value);
-                    const isDoc = docRegex.test(e.value);
-                    const isDocX = docxRegex.test(e.value);
-                    const isXlxs = xlxsRegex.test(e.value);
-                    console.log(isPdf, isDoc, isDocX);
-                    if (isPdf || isDocX || isXlxs || isDoc) { // kiểm tra đuôi file
-                        console.log('voo 2');
-                        text = e.value
-                        const fd = fileData.filter(f => f.id === e.dataset
-                            .index)[0]
-                        const myRenamedFile = new File([fd.file], e.value, {
-                            lastModifiedDate: fd.file.lastModifiedDate,
-                            type: fd.file.type,
-                            size: fd.file.size,
-                            webkitRelativePath: fd.file.webkitRelativePath
-
-                        });
-                        console.log(fd, 'fd.lastModifiedDate', fileData);
-                        fileData = fileData.map(f => {
-                            if (f.id === e.dataset.index) f.file = myRenamedFile
-                            return f
-                        })
-                    } else {
-                        e.value = text ? text : fileName
-                        console.log('voo 3');
-                    }
-
-                    // inputReplace.value = ''
-                    // inputReplace.setAttribute('data-index', '0');
-
+            if (arr.length === 1) {
+                HTMLFormElement.prototype.reset.call(form)
+                Array.from(rr).map(r => {
+                    r.setAttribute('style', 'z-index: 0;position: absolute; width: 84%; top: 0')
+                    r.value = ''
+                })
+                Array.from(butReplaceName).map(b => b.remove())
+            } else {
+                if (e.dataset.index === f.dataset.index) {
+                    fileData = fileData.filter(f => f.id !== e.dataset.index)
+                    f.remove()
                 }
-            })
-        }
-        const handleDelete = (e) => {
-            const butReplaceName = document.querySelectorAll('.buttonReplaceName')
-            const divCus = document.querySelectorAll('.custom-file')
-            const form = document.getElementById('theForm2')
-            const rr = document.querySelectorAll('.replaceName')
-
-            Array.from(divCus).map((f, index, arr) => {
-                console.log('delete', f, arr, rr);
-
-                if (arr.length === 1) {
-                    HTMLFormElement.prototype.reset.call(form)
-                    Array.from(rr).map(r => {
-                        r.setAttribute('style', 'z-index: 0;position: absolute; width: 84%; top: 0')
-                        r.value = ''
-                    })
-                    Array.from(butReplaceName).map(b => b.remove())
-                } else {
-                    if (e.dataset.index === f.dataset.index) {
-                        fileData = fileData.filter(f => f.id !== e.dataset.index)
-                        f.remove()
-                    }
-                }
+            }
 
 
-            })
-        }
-    </script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+        })
+    }
+</script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
