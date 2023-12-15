@@ -64,7 +64,7 @@
             </div>
         </div>
         <div style=' margin-top: 50px;   position: absolute;    width: 100%; height: 100%; background-color: #e6e6e6;'>
-            <form>
+            <form action="{{ route('fileUpload') }}" method="post" enctype="multipart/form-data" id="theForm">
                 <div style='margin: auto; margin-top: 50px; '>
                     <div style='width: 400px; margin: auto; background: white; border-radius: 10px; padding: 20px;'>
                         <div style=' width: 100%;  margin-bottom: 16px'>
@@ -79,8 +79,7 @@
                             <input type="file" name="files[]" class='onInput' data-index='0' id="chooseFile0" hidden onchange="handleGetFiles(this)" multiple>
                             <div class="custom-files" style="width: 100%;     margin-top: 21px;">
                             </div>
-                            ///////////////
-                            <label class="" data-index='0' style='width: 100%;text-align: center; border-radius: 5px; border: 2px dashed #E3E3E3;  padding: 25px 19px; margin-top: 20px;' for="chooseFile0">Tải lên tài liệu</label>
+                            <label class="aaaaa" data-index='0' style='width: 100%;text-align: center; border-radius: 5px; border: 2px dashed #E3E3E3;  padding: 25px 19px; margin-top: 20px;' for="chooseFile0">Tải lên tài liệu</label>
                         </div>
                         <div style=' margin: 5px 0;'>
                             <div class="configuration" style='cursor: pointer; display: flex; align-items: center;'>
@@ -100,7 +99,7 @@
                                 </div>
                             </div>
                         </div>
-                        <button style="width: 100%; border-radius: 7px; border: 0; outline: none; color: #fff; padding: 10px 30px; background: 
+                        <button onclick="formSubmit(this)" type="button" class="" style="width: 100%; border-radius: 7px; border: 0; outline: none; color: #fff; padding: 10px 30px; background: 
 #0561CE; margin: 12px 0;">Tạo trang QR-Code tài liệu</button>
                     </div>
                     <div></div>
@@ -109,6 +108,32 @@
 
         </div>
         <script>
+            let fileData = []
+            const formSubmit = (e) => {
+                const form = document.getElementById('theForm')
+
+                const dataTransfer = new DataTransfer();
+
+                // Add files to the DataTransfer object
+                fileData.forEach((file) => {
+                    dataTransfer.items.add(file.file);
+                });
+
+                //  Remove the old file inputs (assuming you have existing file inputs with class "custom-file")
+
+                // Append the FormData to the form
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.name = 'files[]';
+                input.setAttribute('style', 'display: hidden')
+                input.multiple = true;
+                input.files = dataTransfer.files;
+                form.appendChild(input);
+                console.log('why', fileData);
+                const downloadQR = document.getElementById('downloadQR')
+                HTMLFormElement.prototype.submit.call(form)
+            }
+
             function handleBg(e) {
                 const receiveBg = document.querySelector('.receiveBg')
                 receiveBg.style.backgroundColor = e.value
@@ -116,18 +141,42 @@
             }
             const containFiles = document.querySelector('.custom-files')
 
+            function handleRemoveFile(e) {
+                if (e.dataset.index) {
+                    const file = document.querySelector(`.removeFile${e.dataset.index}`)
+                    if (file) file.remove()
+                    if (fileData.length === 1) {
+                        const aaaaa = document.querySelector('.aaaaa')
+                        aaaaa.style.borderColor = '#E3E3E3'
+                    }
+                    fileData = fileData.filter((f, index) => f.id !== Number(e.dataset.index))
+                }
+
+            }
+
             function handleGetFiles(e) {
                 console.log(e.files, 'file');
                 if (e.files.length > 0) {
+                    const aaaaa = document.querySelector('.aaaaa')
+                    aaaaa.style.borderColor = '#0561CE'
                     const files = e.files
+
                     for (let i = 0; i < files.length; i++) {
-                        containFiles.insertAdjacentHTML('beforeend', ` <label
-                            style=' position:relative; width: 100%; text-align: center; border-radius: 5px; padding: 15px 40px; box-shadow: 0px 1px 5px #00000040;'>
-                            <div class="closeFile" style="  cursor: pointer;  position: absolute; top: 14px; right: 12px; font-size: 15px; width: 25px; height: 25px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background-color: #adafb1; color: white;">
-                                <i class="fa-solid fa-xmark"></i>
-                            </div>
-                            <img src='https://gaixinhbikini.com/wp-content/uploads/2023/02/anh-gai-dep-2k-005.jpg' style="    width: 25px; height: 31px; position: absolute; left: 25px; top: 11px; object-fit: cover;" /><p>${files[i].name}</p>
-                            </label>`)
+                        fileData.push({
+                            id: i,
+                            file: files[i]
+                        });
+                        containFiles.insertAdjacentHTML('beforeend',
+                            ` <label data-index = "${i}"
+                    class = "removeFile${i}"
+                    style = ' position:relative; width: 100%; text-align: center; border-radius: 5px; padding: 15px 52px; box-shadow: 0px 1px 5px #00000040;' >
+                    <div data-index = "${i}"
+                    onclick = "handleRemoveFile(this)"
+                    class = "closeFile"
+                    style = "  cursor: pointer;  position: absolute; top: 14px; right: 12px; font-size: 15px; width: 25px; height: 25px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background-color: #adafb1; color: white;" >
+                    <i class = "fa-solid fa-xmark" > </i> </div> <img src = 'https://gaixinhbikini.com/wp-content/uploads/2023/02/anh-gai-dep-2k-005.jpg'
+                    style = "    width: 25px; height: 31px; position: absolute; left: 25px; top: 11px; object-fit: cover;" / > <p style = 'display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; font-size: 15px;' > ${files[i].name} </p> </label>`
+                        )
                     }
 
                 }
@@ -259,7 +308,6 @@
         </form> -->
         <script>
             let index = 0;
-            let fileData = []
             // const btnAddText = document.querySelector(".addtextbox")
             // const butt = document.querySelector(".buttonSubmitUploadFile")
             // let inputReplaceDDD = document.querySelectorAll('.replaceName')
