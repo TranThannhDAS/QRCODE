@@ -108,6 +108,8 @@
 
         </div>
         <script>
+            let text = ''
+
             let fileData = []
             const formSubmit = (e) => {
                 const form = document.getElementById('theForm')
@@ -153,10 +155,57 @@
                 }
 
             }
+            const handleLoadText = (e) => { // change name and data here
+                const inputReplace = document.querySelectorAll('input.replaceName')
+                console.log(inputReplace, 'inputReplace', fileData, e.dataset.index);
+                Array.from(inputReplace).map(inp => {
+                    if (inp.dataset.index === e.dataset.index) {
+                        const fileName = fileData.filter(f => f.id === Number(e.dataset.index))[0].file.name;
+                        const pdfRegex = /\.pdf$/i; // Case-insensitive match for .pdf
+                        const docxRegex = /\.docx$/i; // Case-insensitive match for .docx
+                        const xlxsRegex = /\.xlxs$/i; // Case-insensitive match for .xlxs
+                        const docRegex = /\.doc$/i; // Case-insensitive match for .docx
+
+                        // Test the filename against each regex
+                        const isPdf = pdfRegex.test(e.value);
+                        const isDoc = docRegex.test(e.value);
+                        const isDocX = docxRegex.test(e.value);
+                        const isXlxs = xlxsRegex.test(e.value);
+                        console.log(isPdf, isDoc, isDocX);
+                        if (isPdf || isDocX || isXlxs) { // kiểm tra đuôi file
+                            console.log('voo 2');
+                            text = e.value
+                            const fd = fileData.filter(f => f.id === Number(e.dataset
+                                .index))[0]
+                            const myRenamedFile = new File([fd.file], e.value, {
+                                lastModifiedDate: fd.file.lastModifiedDate,
+                                type: fd.file.type,
+                                size: fd.file.size,
+                                webkitRelativePath: fd.file.webkitRelativePath
+
+                            });
+                            console.log(fd, 'fd.lastModifiedDate', fileData);
+                            fileData = fileData.map(f => {
+                                if (f.id === Number(e.dataset
+                                        .index)) f.file = myRenamedFile
+                                return f
+                            })
+                        } else {
+                            e.value = text ? text : fileName
+                            console.log('voo 3');
+                        }
+
+                        // inputReplace.value = ''
+                        // inputReplace.setAttribute('data-index', '0');
+
+                    }
+                })
+            }
 
             function handleGetFiles(e) {
                 console.log(e.files, 'file');
                 if (e.files.length > 0) {
+                    text = ''
                     const aaaaa = document.querySelector('.aaaaa')
                     aaaaa.style.borderColor = '#0561CE'
                     const files = e.files
@@ -175,7 +224,7 @@
                     class = "closeFile"
                     style = "  cursor: pointer;  position: absolute; top: 14px; right: 12px; font-size: 15px; width: 25px; height: 25px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background-color: #adafb1; color: white;" >
                     <i class = "fa-solid fa-xmark" > </i> </div> <img src = 'https://gaixinhbikini.com/wp-content/uploads/2023/02/anh-gai-dep-2k-005.jpg'
-                    style = "    width: 25px; height: 31px; position: absolute; left: 25px; top: 11px; object-fit: cover;" / > <p style = 'display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; font-size: 15px;' > ${files[i].name} </p> </label>`
+                    style = "    width: 25px; height: 31px; position: absolute; left: 25px; top: 11px; object-fit: cover;" / >   <input type="text" name="name" class=" replaceName" data-index='${i}' oninput='handleLoadText(this)' placeholder="Tên dự án" style=' width:100%; width: 100%; font-size: 14px; border: 0; outline: none;' value='${files[i].name}'/>  </label>`
                         )
                     }
 
