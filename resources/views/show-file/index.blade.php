@@ -33,7 +33,7 @@ border: 2px solid #46b4f7;" name="query" placeholder="Search here....." value="{
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th>Mã QRss</th>
+                                <th>Mã QR</th>
                                 <th>Tên dự án</th>
                                 <th>Thao tác</th>
                             </tr>
