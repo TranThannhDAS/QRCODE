@@ -63,6 +63,7 @@
                     <a style='margin: 0 8px; cursor: pointer; font-weight:600;'>ĐÁNH GIÁ</a>
                     <a style='margin: 0 8px; cursor: pointer; font-weight:600;'>LỘ TRÌNH</a>
                     <a style='margin: 0 8px; cursor: pointer; font-weight:600;'>LIÊN HỆ</a>
+                    <a style='margin: 0 8px; cursor: pointer; font-weight:600;'>Danh sách mã QR</a>
                 </div>
                 <div style='width: 1px; height: 30px; background: #CECECE'></div>
                 <div style='display: flex;padding: 0 18px; align-items: center; '><a
@@ -73,7 +74,7 @@
             </div>
         </div>
         <div
-            style=' margin-top: 50px;   position: absolute;     height: 100%;   width: 100%; background-color: #e6e6e6;'>
+            style=' margin-top: 50px;   position: absolute;       width: 100%; background-color: #e6e6e6;'>
             <div style="display: flex; align-items: center; justify-content: center;">
                 <form action="{{ route('fileUpload') }}" method="post" enctype="multipart/form-data"
                     style="margin: 0 10px" id="theForm">
@@ -168,9 +169,9 @@
                                     </div> <img
                                         src='https://gaixinhbikini.com/wp-content/uploads/2023/02/anh-gai-dep-2k-005.jpg'
                                         style="    width: 25px; height: 31px; position: absolute; left: 25px; top: 11px; object-fit: cover;" />
-                                    <p
+                                    <a href="#"
                                         style='    display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;'>
-                                        Tong-ket-cuoi-nam-2023-ve-vdawdwww</p>
+                                        Tong-ket-cuoi-nam-2023-ve-vdawdwww</a>
                                 </label> <label
                                     style=' position:relative; width: 100%; text-align: center; border-radius: 5px; padding: 15px 52px; box-shadow: 0px 1px 5px #00000040;'>
                                     <div class="eye"
@@ -235,7 +236,7 @@
             form.appendChild(input);
             console.log('why', fileData);
             const downloadQR = document.getElementById('downloadQR')
-            // HTMLFormElement.prototype.submit.call(form)
+             HTMLFormElement.prototype.submit.call(form)
         }
 
         function handleBg(e) {
