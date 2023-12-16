@@ -26,14 +26,10 @@ class UploadFileController extends Controller
         $validatedData = $request->validate([
             'files' => 'required',
             'files.*' => 'mimes:csv,txt,xlx,xls,pdf,doc,docx'
-        ]);
-        if (!$request->session()->has('id')) {
-            $path = 'public/' . 'uploads' . '/' . $randomString;
-        } else {
-            $path = 'public/' . 'uploads' . '/' . $request->session()->get('id') . '/' . $randomString;
-        }
-        if (!File::exists(storage_path($path))) {
-            File::makeDirectory($path, 0755, true, true);
+        ]);   
+            $path = 'public/' . '/' . $randomString;
+        if (!File::exists(public_path($path))) {
+            File::makeDirectory($path,0777,true,true);
         }
         $fileBag = $request->file('files');
         if ($fileBag) {
@@ -43,7 +39,7 @@ class UploadFileController extends Controller
             foreach ($fileBag as $key => $file) {
                 // Lấy tên file
                 $fileName = $file->getClientOriginalName();
-                $path_pdf = $file->storeAs($path, $fileName);
+                $path_pdf = $file->move($path, $fileName);
                 $allFilePaths .= $path_pdf . '|';
             }
             if ($request->session()->has('id')) {
@@ -73,55 +69,49 @@ class UploadFileController extends Controller
     }
     public function allfile()
     {
-        if (!session('id')) {           
+        if (!session('id')) {
             return redirect()->route('show-form-login');
         }
         $files = DB::table('files')->where('userid', session('id'))->paginate(5);
         return view('show-file.index', compact('files'));
     }
+
     public function show_edit($id)
     {
-        if (!session('id')) {
-            return redirect()->route('show-form-login');
-        }
-        $files = Files::find($id);
-        if ($files->userid !== session('id')) {
-            abort(404);
-        }
         $file = DB::table('files')
             ->where('id', $id)
-            ->where('userid', session('id'))
             ->first();
-        $files = File::files(storage_path('app/public/uploads/' . session('id') . '/' . $file->hashcode));
+        $files = File::files(public_path('public/'. $file->hashcode));
         $qrCodeData = QrCode::format('png')->size(1000)->generate($file->qrcode);
         $info = $file->hashcode;
-        return view('show-file.edit', compact('file', 'files','qrCodeData','info'));
+        $userid = $file->userid ?? null;
+        return view('show-file.edit', compact('file', 'files', 'qrCodeData', 'info','userid'));
     }
 
     public function ondownload(Request $request)
     {
-        if (!session('id')) {
-        $path2 = storage_path('app\public\uploads/' . session()->get('id') . '/' . $request->code . '/' . $request->path);
-        }else{
-        $path2 = storage_path('app\public\uploads/' . session()->get('id') . '/' . $request->code . '/' . $request->path);
-        }
-        
+        $path2 = public_path('public/' . $request->code . '/' . $request->path);
+    
         if (File::exists($path2)) {
             return response()->download($path2);
         } else {
             return "File not found";
-        }           
+        }
     }
+
     public function ondelete(Request $request)
     {
-        if (!session('id')) {      
-            $path2 = storage_path('app\public\uploads/'. '/' . $request->code . '/' . $request->path);
-        }else{
-            $path2 = storage_path('app\public\uploads/' . session()->get('id') . '/' . $request->code . '/' . $request->path);
-        }   
+         $file = DB::table('files')
+         ->where('id', $request->id)
+         ->first();
+        if($file->userid !== session('id')){
+            abort(500);
+        }
+        $path2 = public_path('public/' . $request->code . '/' . $request->path);
+     
         if (File::exists($path2)) {
             File::delete($path2);
-            return redirect()->route('show_edit', ['id' => $request->id]);
+            return redirect()->route('show_edit', ['id' => $request->id])->with('fileuserid', $file->userid);
         } else {
             return "File not found";
         }
@@ -135,7 +125,7 @@ class UploadFileController extends Controller
         if (!$exsitsFile) {
             return null;
         }
-        $path = storage_path('app\public\uploads/' . session()->get('id') . '/' . $exsitsFile->hashcode);
+        $path = public_path('public/' . session()->get('id') . '/' . $exsitsFile->hashcode);
         if (File::exists($path)) {
             File::deleteDirectory($path);
         }
@@ -144,17 +134,17 @@ class UploadFileController extends Controller
     }
     public function doedit(Request $request)
     {
-        if (!session('id')) {      
-                return redirect()->route('show-form-login');
-            }
+        if (!session('id')) {
+            return redirect()->route('show-form-login');
+        }
 
-            $validatedData = $request->validate([
-                'files.*' => 'mimes:csv,txt,xlx,xls,pdf,doc,docx'
-            ]);
+        $validatedData = $request->validate([
+            'files.*' => 'mimes:csv,txt,xlx,xls,pdf,doc,docx'
+        ]);
 
-            $files = Files::find($request->id);
-            $path = 'public/' . 'uploads' . '/' . $request->session()->get('id') . '/' . $files->hashcode;
-        
+        $files = Files::find($request->id);
+        $path = 'public/' . '/' . $files->hashcode;
+
         if ($files->userid !== session('id')) {
             abort(404);
         }
@@ -166,34 +156,34 @@ class UploadFileController extends Controller
             foreach ($fileBag as $key => $file) {
                 // Lấy tên file
                 $fileName = $file->getClientOriginalName();
-                $path_pdf = $file->storeAs($path, $fileName);
+                $path_pdf = $file->move($path, $fileName);
             }
         }
         if (session('id')) {
             DB::table('files')
-            ->where('id', $request->id)
-            ->update(['name' => $request->nameNew]);
-        } 
+                ->where('id', $request->id)
+                ->update(['name' => $request->nameNew]);
+        }
         return redirect()->route('storagefile');
     }
     public function show_edit_anonymous(Request $request)
     {
         $parts = explode('/', $request->getPathInfo());
         $info = $parts[1];
-        if(File::exists(storage_path('app/public/uploads/' . $info))){
-            $files = File::files(storage_path('app/public/uploads/' . $info));
-        }else{
+        if (File::exists(public_path('public/' . $info))) {
+            $files = File::files(storage_path('public/' . $info));
+        } else {
             abort(404);
-        }  
+        }
         $file = DB::table('anonymous_files')
             ->where('hashcode', $info)
             ->first();
         $qrCodeData = QrCode::format('png')->size(1000)->generate($file->qrcode);
-        return view('show-file.edit', compact('file', 'files','qrCodeData','info'));
+        return view('show-file.edit', compact('file', 'files', 'qrCodeData', 'info'));
     }
     public function find(Request $request)
     {
-        if (!session('id')) {          
+        if (!session('id')) {
             return redirect()->route('show-form-login');
         }
         $request->validate([
@@ -204,5 +194,9 @@ class UploadFileController extends Controller
             ->where('name', 'LIKE', '%' . $search_text . '%')
             ->paginate(5);
         return view('show-file.index', ['files' => $files]);
+    }
+    public function show(Request $request){
+        $filePath = ('/'.'public/'.$request->code .'/'.$request->path);
+        return view('viewFile',compact('filePath'));
     }
 }

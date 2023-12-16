@@ -1,6 +1,7 @@
 @extends('layout')
 
 @section('content')
+  <input type="hidden" name="" id="" value={{ $check = $userid ?? null  }}>
     <div class="container">
         <div class="card" style='box-shadow: 0 0 5px #31c5d1;
     margin-top: 15px;'>
@@ -29,7 +30,7 @@
 
                                 </div>
                                 <h3 style="font-size: 16px; margin: 0">Tên dự án</h3>
-                                @if (session()->has('id'))
+                                @if ($check === session('id')&& session()->has('id'))
                                     <input type="text" class="nameNew" name="nameNew"
                                         style='outline: none; border-radius: 5px; border: 2px solid #46b4f7; padding: 2px 4px;'
                                         class="form-control" value="{{ $file->name }}" placeholder="Nhập tên dự án">
@@ -51,12 +52,19 @@
                                         style='border: 2px solid #46b4f7;' class="form-control check1"
                                         value="{{ $item->getFilename() }}" data-realpart="{{ $item->getRealPath() }}"
                                         placeholder="Nhập họ tên" disabled>
-                                    <div style="display: flex;"> <a type="button" style='margin: 0 2px;'
-                                            href="{{ url('storagefile/download?path=' . $item->getFilename() . '&name=' . $file->name . '&id=' . $file->id . '&code=' . $info) }}"
+                                    <div style="display: flex; width: max-content;"> <a type="button" style='margin: 0 2px; color: white; background-color: #404140e0;'
+                                            href="{{ url('show?path=' . $item->getFilename() . '&id=' . $file->id . '&code=' . $info) }}"
                                             class="btn btn-info">Xem</a>
-                                        <a type="button" style='margin: 0 2px;'
-                                            href="{{ url('storagefile/delete?path=' . $item->getFilename() . '&name=' . $file->name . '&id=' . $file->id . '&code=' . $info) }}"
-                                            class="btn btn-danger">Xóa</a>
+                                            <div style="display: flex; width: max-content;"> <a type="button" style='margin: 0 2px;'
+                                                href="{{ url('storagefile/download?path=' . $item->getFilename() . '&name=' . $file->name . '&id=' . $file->id . '&code=' . $info) }}"
+                                                class="btn btn-info">Tải xuống</a> </div>
+                                        @if ($check === session('id')&& session()->has('id'))
+                                            <a type="button" style='margin: 0 2px;'
+                                                href="{{ url('storagefile/delete?path=' . $item->getFilename() . '&name=' . $file->name . '&id=' . $file->id . '&code=' . $info) }}"
+                                                class="btn btn-danger">Xóa</a>
+                                        @endif
+
+
                                     </div>
                                 </div>
                             @endforeach
@@ -75,25 +83,25 @@
                                             file</label>
                                     </div>
                                 @endif
-                            </div> --}}                
-                            @if (session()->has('id'))
-                            <div class="custom-files" style="flex: 1;position: relative;">
-                                <div class="custom-file custom-file0" style='position: relative;' data-index='0'>
-                                    <input type="file" hidden name="files[]" onchange="displayFileName(this)"
-                                        data-index='0' class="onInput form-control " id="chooseFileQ" multiple>
-                                    <input type="text" name="name" class="form-control replaceName" data-index='0'
-                                        oninput='handleLoadText2(this)' placeholder="Tên dự án"
-                                        style='z-index: -3; position: absolute; width: 73%; padding: 5px; border: 2px solid #46b4f7; border-radius: 5px;'>
-                                    <label class="custom-file-label labelName" for="chooseFileQ" data-index='0'
-                                        style='width: 88%; padding: 5px; border: 2px solid #46b4f7; border-radius: 5px; z-index: 3;'>Select
-                                        file</label>
-                                </div>
-                                <button
-                                    style="height: fit-content; position:absolute;  width: fit-content ; right: 2px; top: 0px; font-size: 25px; padding: 0px 18px; display: flex; align-items: center;"
-                                    class="addtextbox btn-info border-0 rounded-1 rounded text-capitalize"
-                                    type="button">+</button>
+                            </div> --}}
+                            @if ($check === session('id')&& session()->has('id'))
+                                <div class="custom-files" style="flex: 1;position: relative;">
+                                    <div class="custom-file custom-file0" style='position: relative;' data-index='0'>
+                                        <input type="file" hidden name="files[]" onchange="displayFileName(this)"
+                                            data-index='0' class="onInput form-control " id="chooseFileQ" multiple>
+                                        <input type="text" name="name" class="form-control replaceName" data-index='0'
+                                            oninput='handleLoadText2(this)' placeholder="Tên dự án"
+                                            style='z-index: -3; position: absolute; width: 73%; padding: 5px; border: 2px solid #46b4f7; border-radius: 5px;'>
+                                        <label class="custom-file-label labelName" for="chooseFileQ" data-index='0'
+                                            style='width: 88%; padding: 5px; border: 2px solid #46b4f7; border-radius: 5px; z-index: 3;'>Select
+                                            file</label>
+                                    </div>
+                                    <button
+                                        style="height: fit-content; position:absolute;  width: fit-content ; right: 2px; top: 0px; font-size: 25px; padding: 0px 18px; display: flex; align-items: center;"
+                                        class="addtextbox btn-info border-0 rounded-1 rounded text-capitalize"
+                                        type="button">+</button>
 
-                            </div>
+                                </div>
                             @endif
                         </div>
 
@@ -120,12 +128,13 @@
                                 </div>
                             </div>
                         </div>
-                            <button type="button" name="submit" onclick="formSubmit(this)" 
+                        @if ($check === session('id')&& session()->has('id'))
+                          <button type="button" name="submit" onclick="formSubmit(this)"
                                 class=" btn btn-primary btn-block mt-4 buttonSubmitUploadFile">
                                 Cập nhật
                             </button>
-                            @if (session()->has('id'))
                         @endif
+
                 </form>
             </div>
             <script>
@@ -157,8 +166,10 @@
     {{-- {{ route('download', ['files' => $item->getRealPath()]) }} --}}
 
     <script>
-        const vl = document.getElementById('nameFile')
-        const defaultValue = vl.value
+        // const vl = document.getElementById('nameFile')
+        // console.log(vl,'vl',vl?.value);
+
+        // const defaultValue = vl?.value ?? ''
         let fileData = [];
         let index = 0
         const btnAddText = document.querySelector(".addtextbox")
@@ -178,16 +189,19 @@
             customFile.insertAdjacentHTML('beforeend', div)
         })
 
-        function handleReadonly(e) {
-            e.value = defaultValue
-        }
+        // function handleReadonly(e) {
+        //     e.value = defaultValue
+        // }
+                console.log(fileData,'fileData');
 
         function displayFileName(input) {
             // Kiểm tra xem có file nào được chọn không
             if (input.files.length > 0) {
                 const rr = document.querySelectorAll('.replaceName')
+                console.log(fileData,'fileData');
 
                 if (fileData.some(f => f.id === input.dataset.index)) { // check data has exist?
+
                     fileData = fileData.map(f => {
                         if (f.id === input.dataset.index) f.file = input.files[0]
                         return f
@@ -198,6 +212,8 @@
                         file: input.files[0]
                     });
                 }
+                console.log(fileData);
+
                 Array.from(rr).map(r => { //set value by name of file
                     if (r.dataset.index === input.dataset.index) {
                         r.setAttribute('style',
