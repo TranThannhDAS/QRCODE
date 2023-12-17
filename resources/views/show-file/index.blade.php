@@ -1,8 +1,8 @@
 @extends('layout')
 
 @section('content')
-<div class="container mt-2">
-    sss
+
+<div class="container " style="margin-top: 50px">
     <div class="card" style="">
         <div class="card-header " style="box-shadow: 0 0 5px #1eabda;">
             <div class="row" style='padding-top: 20px;'>

@@ -1,3 +1,5 @@
+@extends('layout')
+
 <!doctype html>
 <html lang="en">
 
@@ -47,52 +49,32 @@
 </head>
 
 <body>
-    <div class=" " style="width: 100%;  background-color: #e0e0e0;
-">
+    
+    <div class=" " style="width: 100%;  background-color: #e0e0e0;">
+      
         <div
-            style='position: fixed;display: flex; z-index:999; background: white; align-items: center; width: 100%; height: 50px; top: 0; left: 0; display: flex; align-items: center; justify-content: space-between '>
-            <div
-                style="color: #0561CE;display: flex; align-items: center; width: 100px; padding: 0 13px; margin-left: 50px; justify-content: space-between">
-                <div><i class="fa-solid fa-expand"></i></div>
-                <p style='font-weight:600;'>QRHOP</p>
-            </div>
-            <div style='display: flex; align-items: center; padding: 0 50px;'>
-                <div style='display: flex; margin-right: 10px; align-items: center; color: #0561CE;'>
-                    <a style='margin: 0 8px; cursor: pointer; font-weight:600;'>TRANG CHỦ</a>
-                    <a style='margin: 0 8px; cursor: pointer; font-weight:600;'>GIỚI THIỆU</a>
-                    <a style='margin: 0 8px; cursor: pointer; font-weight:600;'>ĐÁNH GIÁ</a>
-                    <a style='margin: 0 8px; cursor: pointer; font-weight:600;'>LỘ TRÌNH</a>
-                    <a style='margin: 0 8px; cursor: pointer; font-weight:600;'>LIÊN HỆ</a>
-                    <a style='margin: 0 8px; cursor: pointer; font-weight:600;'>Danh sách mã QR</a>
-                </div>
-                <div style='width: 1px; height: 30px; background: #CECECE'></div>
-                <div style='display: flex;padding: 0 18px; align-items: center; '><a
-                        style=' color: black; cursor: pointer;'>Đăng
-                        ký</a><a
-                        style='padding: 4px 20px; margin-left: 10px;border-radius: 5px; cursor: pointer; color: white;background: #0561CE;'>Đăng
-                        nhập</a></div>
-            </div>
-        </div>
-        <div
-            style=' margin-top: 50px;   position: absolute;       width: 100%; background-color: #e6e6e6;'>
+        style="margin-top: 50px;position: absolute;width: 100%;background-color: #e6e6e6;height: 100%;">
             <div style="display: flex; align-items: center; justify-content: center;">
                 <form action="{{ route('fileUpload') }}" method="post" enctype="multipart/form-data"
                     style="margin: 0 10px" id="theForm">
+                    @csrf
                     <div style='margin: auto; margin-top: 50px; '>
                         <div style='width: 400px; margin: auto; background: white; border-radius: 10px; padding: 20px;'>
                             <div style=' width: 100%;  margin-bottom: 16px'>
                                 <h3 style='margin-bottom: 6px; color: #0561CE; font-weight: 700;'>Khởi tạo nhanh</h3>
-                                <p>Trang quét mã QR Cuộc họp</p>
+                                <p>Trang quét mã QR Cuộc họp </p>
+                       
+
                             </div>
                             <div style='width:100%;     height: 1px; border: 1px dashed #E3E3E3; margin-bottom: 21px;'>
                             </div>
                             <div style='width: 100%;'>
                                 <input type="text" class="form-control " placeholder="Tên cuộc họp"
                                     style=' width: 100%;padding: 10px 20px; border: 2px solid #0561CE;     margin-bottom: 20px; height: 47px;'
-                                    name="name" required>
+                                    name="name1" required>
                                 <input type="text" class="" placeholder="Giới thiệu, mô tả cuộc họp"
                                     style='outline: none; border: 0;  border-radius: 5px; width: 100%; padding: 10px 20px; background-color: #E3E3E3;'
-                                    name="name" required>
+                                    name="des" required>
                                 <input type="file" name="files[]" class='onInput' data-index='0' id="chooseFile0" hidden
                                     onchange="handleGetFiles(this)" multiple>
                                 <div class="custom-files" style="width: 100%;     margin-top: 21px;">
@@ -107,7 +89,7 @@
                                         style="color: #0561CE;    font-size: 14px; margin-top: 3px; margin-right: 5px;"></i>
                                     <p>Cấu hình nâng cao</p>
                                     <div
-                                        style="    width: 55%; height: 1px; background: #EAEAEA; margin-left: 18px; margin-top: 5px;">
+                                        style="width: 55%; height: 1px; background: #EAEAEA; margin-left: 18px; margin-top: 5px;">
 
                                     </div>
                                 </div>
@@ -134,74 +116,6 @@
                         <div></div>
                     </div>
                 </form>
-                <form action="{{ route('fileUpload') }}" method="post" enctype="multipart/form-data"
-                    style="margin: 0 10px" id="theForm">
-                    <div style='margin: auto; margin-top: 50px; '>
-                        <div
-                            style='width: 400px; margin: auto; border: 3px solid #0561CE; background: white; border-radius: 10px; padding: 20px;'>
-                            <div style=' width: 100%;  margin-bottom: 16px'>
-                                <h3 style='margin-bottom: 6px; color: #0561CE; font-weight: 700;'>Thông tin khởi tạo
-                                </h3>
-                                <p>Trang QR Code</p>
-                            </div>
-                            <div style='width:100%;     height: 1px; border: 1px dashed #E3E3E3; margin-bottom: 21px;'>
-                            </div>
-                            <div style='width: 100%; color: black;'>
-                                <h2 style="font-size: 17px; margin: 0;">Đường dẫn url:</h2>
-                                <div style='    display: flex; align-items: center;'><a href="#"
-                                        style='font-size: 14px;     text-decoration: none; border-bottom: 1px solid;color: black; margin-right: 10px; max-width: 76%; overflow: hidden; -webkit-line-clamp: 1; display: -webkit-box; -webkit-box-orient: vertical; /* display: flex; */ height: fit-content;'>https://qrcode.domain.com/az2928e39</a><img
-                                        src='https://gaixinhbikini.com/wp-content/uploads/2023/02/anh-gai-dep-2k-005.jpg'
-                                        style="    width: 30px; height: 30px; object-fit: cover;" /></div>
-                            </div>
-                            <div style=' margin: 5px 0;  flex-wrap: wrap;   display: flex; justify-content: center;'>
-                                <img src='https://qrcode-gen.com/images/qrcode-default.png' style="width: 80%;" />
-                                <a href='#'
-                                    style="color: black; border-bottom: 1px solid;    text-decoration: none; font-size: 15px;">Tải
-                                    mã
-                                    QR-Code</a>
-                            </div>
-                            <div style="margin-top: 25px">
-                                <label
-                                    style=' position:relative; width: 100%; text-align: center; border-radius: 5px; padding: 15px 52px; box-shadow: 0px 1px 5px #00000040;'>
-                                    <div class="eye"
-                                        style="  cursor: pointer;  position: absolute; top: 14px; right: 12px; font-size: 20px; width: 25px; height: 25px; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: #CECECE; ">
-                                        <i class="fa-solid fa-eye"></i>
-                                    </div> <img
-                                        src='https://gaixinhbikini.com/wp-content/uploads/2023/02/anh-gai-dep-2k-005.jpg'
-                                        style="    width: 25px; height: 31px; position: absolute; left: 25px; top: 11px; object-fit: cover;" />
-                                    <a href="#"
-                                        style='    display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;'>
-                                        Tong-ket-cuoi-nam-2023-ve-vdawdwww</a>
-                                </label> <label
-                                    style=' position:relative; width: 100%; text-align: center; border-radius: 5px; padding: 15px 52px; box-shadow: 0px 1px 5px #00000040;'>
-                                    <div class="eye"
-                                        style="  cursor: pointer;  position: absolute; top: 14px; right: 12px; font-size: 20px; width: 25px; height: 25px; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: #CECECE; ">
-                                        <i class="fa-solid fa-eye"></i>
-                                    </div> <img
-                                        src='https://gaixinhbikini.com/wp-content/uploads/2023/02/anh-gai-dep-2k-005.jpg'
-                                        style="    width: 25px; height: 31px; position: absolute; left: 25px; top: 11px; object-fit: cover;" />
-                                    <p
-                                        style='    display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;'>
-                                        Tong-ket-cuoi-nam-2023-ve-vdawdwww</p>
-                                </label> <label
-                                    style=' position:relative; width: 100%; text-align: center; border-radius: 5px; padding: 15px 52px; box-shadow: 0px 1px 5px #00000040;'>
-                                    <div class="eye"
-                                        style="  cursor: pointer;  position: absolute; top: 14px; right: 12px; font-size: 20px; width: 25px; height: 25px; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: #CECECE; ">
-                                        <i class="fa-solid fa-eye"></i>
-                                    </div> <img
-                                        src='https://gaixinhbikini.com/wp-content/uploads/2023/02/anh-gai-dep-2k-005.jpg'
-                                        style="    width: 25px; height: 31px; position: absolute; left: 25px; top: 11px; object-fit: cover;" />
-                                    <p
-                                        style='    display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;'>
-                                        Tong-ket-cuoi-nam-2023-ve-vdawdwww</p>
-                                </label>
-                            </div>
-                            <p style="width: 100%; margin: 12px 0; font-size: 15px; color: 
-#808285">Tổng 2 tài liệU</p>
-                        </div>
-                        <div></div>
-                    </div>
-                </form>
             </div>
 
 
@@ -215,7 +129,8 @@
         let fileData = []
         const formSubmit = (e) => {
             const form = document.getElementById('theForm')
-
+            const inp = document.querySelector('.onInput')
+            if(inp) inp.remove()
             const dataTransfer = new DataTransfer();
 
             // Add files to the DataTransfer object
@@ -236,7 +151,7 @@
             form.appendChild(input);
             console.log('why', fileData);
             const downloadQR = document.getElementById('downloadQR')
-             HTMLFormElement.prototype.submit.call(form)
+            HTMLFormElement.prototype.submit.call(form)
         }
 
         function handleBg(e) {

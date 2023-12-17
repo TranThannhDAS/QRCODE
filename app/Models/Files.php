@@ -13,6 +13,7 @@ class Files extends Model
         'filepath',
         'userid',
         'qrcode',
-        'hashcode'
+        'hashcode',
+        'description'
     ];
 }

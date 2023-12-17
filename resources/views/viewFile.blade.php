@@ -8,7 +8,7 @@
 </head>
 <body>
     <div>
-        <iframe width="1000" height="1000" src="{{ asset($filePath) }}" frameborder="50"></iframe>
+        <iframe width="1500" height="1000" src="{{ asset($filePath) }}" frameborder="50"></iframe>
 
     </div>
 </body>

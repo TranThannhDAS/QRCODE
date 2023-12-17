@@ -30,8 +30,8 @@ Route::get('profile',[AuthController::class, 'showProfile'])->name('show-profile
 Route::post('profile',[AuthController::class, 'profile'])->name('profile');
 
 
-Route::get('qrcode/public',[UploadFileController::class, 'createForm'])->name('show-form-uploadFile');
-Route::post('qrcode/public',[UploadFileController::class, 'fileUpload'])->name('fileUpload');
+Route::get('/',[UploadFileController::class, 'createForm'])->name('show-form-uploadFile');
+Route::post('/',[UploadFileController::class, 'fileUpload'])->name('fileUpload');
 Route::get('storagefile',[UploadFileController::class,'allfile'])->name('storagefile');
 
 Route::get('storagefile/{id}/edit',[UploadFileController::class,'show_edit'])->name('show_edit');

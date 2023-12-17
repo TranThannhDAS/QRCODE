@@ -11,6 +11,7 @@ class Anonymous_file extends Model
     protected $fillable = [
         'hashcode',
         'name',   
-        'qrcode'  
+        'qrcode',
+        'description'
     ];
 }

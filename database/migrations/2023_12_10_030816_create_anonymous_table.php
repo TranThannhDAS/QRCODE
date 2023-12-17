@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('hashcode')->nullable();
             $table->string('name')->nullable();    
+            $table->text('description')->nullable();
             $table->string('qrcode')->nullable();    
             $table->timestamps();
         });

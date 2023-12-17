@@ -12,6 +12,9 @@ class AuthController extends Controller
         return view('auth.form-register');
     }
     public function register(Request $request){
+        if(session('id')){
+            return redirect()->route('show-form-uploadFile');
+        }
         $checkmail = User::where('email', $request->email)->first();
         if($checkmail != null){
             return redirect()->route('show-form-register')->with('errors', ['email' => 'Email đã được đăng kí']);
@@ -29,6 +32,9 @@ class AuthController extends Controller
         return redirect()->route('show-form-login')->with('success','Đăng ký thành công');
     }
     public function showFormLogin(){
+        if(session('id')){
+            return redirect()->route('show-form-uploadFile');
+        }
         return view('auth.form-login');
     }
     public function login(Request $request){   
