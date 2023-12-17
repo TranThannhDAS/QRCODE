@@ -219,7 +219,7 @@
                             }
                         })
                     }
-
+                    let index = 0
                     function handleGetFiles(e) {
                         console.log(e.files, 'file');
                         if (e.files.length > 0) {
@@ -230,16 +230,16 @@
 
                             for (let i = 0; i < files.length; i++) {
                                 fileData.push({
-                                    id: i,
+                                    id: index,
                                     file: files[i]
                                 });
                                 containFiles.insertAdjacentHTML('beforeend',
-                                    ` <label data-index = "${i}"
-                    class = "removeFile${i}"
+                                    ` <label data-index = "${index}"
+                    class = "removeFile${index}"
                     style = 'margin-top: 10px; position:relative; width: 100%; text-align: center; border-radius: 5px; padding: 15px 52px; box-shadow: 0px 1px 5px #00000040;' >
                     <img src = 'https://gaixinhbikini.com/wp-content/uploads/2023/02/anh-gai-dep-2k-005.jpg'
                     style = "    width: 25px; height: 31px; position: absolute; left: 25px; top: 11px; object-fit: cover;" / >
-                    <div data-index = "${i}"
+                    <div data-index = "${index}"
                     onclick = "handleRemoveFile(this)"
                     class = "closeFile"
                     style = "  cursor: pointer;  position: absolute; top: 14px; right: 12px; font-size: 19px; width: 25px; height: 25px; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: #6a6a6a;" >
@@ -247,8 +247,9 @@
                                         style="  cursor: pointer;  position: absolute; top: 15px; right: 48px; font-size: 20px; width: 25px; height: 25px; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: #CECECE; ">
                                         <i class="fa-solid fa-eye"></i>
                                        
-                                    </div>   <input type="text" name="name" class=" replaceName" data-index='${i}' oninput='handleLoadText(this)' placeholder="Tên dự án" style='    padding-right: 28px; width:100%; width: 100%; font-size: 14px; border: 0; outline: none;' value='${files[i].name}'/>  </label>`
+                                    </div>   <input type="text" name="name" class=" replaceName" data-index='${index}' oninput='handleLoadText(this)' placeholder="Tên dự án" style='    padding-right: 28px; width:100%; width: 100%; font-size: 14px; border: 0; outline: none;' value='${files[i].name}'/>  </label>`
                                 )
+                                index +=1
                             }
 
                         }

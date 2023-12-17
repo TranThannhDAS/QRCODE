@@ -29,17 +29,16 @@ class UploadFileController extends Controller
         }
 
         $validatedData = $request->validate([
-            'files' => 'required',
-            'files.*' => 'mimes:csv,txt,xlx,xls,pdf,doc,docx'
+            'files' => 'required'
         ]);   
     
-            $path = 'public/' . '/' . $randomString;
+            $path = 'public/'  . $randomString;
       
 
         if (!File::exists(public_path($path))) {
+
             File::makeDirectory($path,0777,true,true);
         }
-
         $fileBag = $request->file('files');
         if ($fileBag) {
             // Lấy danh sách các file
@@ -48,8 +47,10 @@ class UploadFileController extends Controller
             foreach ($fileBag as $key => $file) {
                 // Lấy tên file
                 $fileName = $file->getClientOriginalName();
+
                 $path_pdf = $file->move($path, $fileName);
                 $allFilePaths .= $path_pdf . '|';
+                print_r($fileName);
             }
             if ($request->session()->has('id')) {
                 $file_db = new Files();
@@ -156,10 +157,6 @@ class UploadFileController extends Controller
         if (!session('id')) {
             return redirect()->route('show-form-login');
         }
-
-        $validatedData = $request->validate([
-            'files.*' => 'mimes:csv,txt,xlx,xls,pdf,doc,docx'
-        ]);
 
         $files = Files::find($request->id);
         $path = 'public/' . '/' . $files->hashcode;
